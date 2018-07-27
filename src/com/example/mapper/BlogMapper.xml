@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.BlogMapper">
+	
+	<resultMap id="blogResultMap" type="com.example.model.Blog">
+		<id column="blog_id" property="id" />
+		<result column="blog_title" property="title" />
+		<result column="blog_content" property="content" />
+		<result javaType="java.util.Date"  column="blog_dob" property="dob" />
+		<result column="blog_state" property="state" />
+		
+		<association property="author" column="author_id" 
+		 	javaType="com.example.model.Author" foreignColumn="id">
+			<id column="author_id" property="id" />
+			<result column="author_name" property="name" />
+			<result column="author_phone" property="phone" />
+		</association>
+		
+		<collection property="posts" ofType="com.example.model.Post" >
+			<id column="post_id" property="id" />
+			<result column="post_content" property="content" />
+			<result column="post_dob" property="dob" />
+			
+		</collection>
+		
+		
+	</resultMap>
+	
+	<select id="findAllBlogs" resultMap="blogResultMap">
+		select b.id as blog_id, b.title as blog_title, b.content as blog_content, b.dob as blog_dob, b.state as blog_state, 
+			a.id as author_id , a.name as author_name,  a.phone as author_phone,
+			p.id as post_id, p.content as post_content, p.dob as post_dob
+		from blog b 
+			left outer join Author a on b.author_id=a.id
+			left outer join Post p on b.id=p.blog_id
+			
+	</select>
+	
+	
+	
+	
+	
+</mapper>
