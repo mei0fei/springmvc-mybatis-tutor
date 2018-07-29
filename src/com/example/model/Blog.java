@@ -58,9 +58,11 @@ public class Blog {
 	public String toString() {
 		String str = "Blog [id=" + id + ", title=" + title + ", content=" + content
 				+ ", dob=" + dob + ", state=" + state ;
-		str+="\n" + author.toString();
+		if(author!=null)
+			str+="\n" + author.toString();
 		for(Post p: posts){
-			str+="\n" + p.toString();
+			if(p!=null)
+				str+="\n" + p.toString();
 		}
 		return str;
 	}
